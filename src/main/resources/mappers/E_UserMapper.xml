@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.item.vote.mapper.UserMapper">
+<mapper namespace="com.item.vote.mapper.E_UserMapper">
 
     <resultMap id="BaseResultMap" type="com.item.vote.bean.User">
-        <id column="id" jdbcType="BIGINT" property="id" />
+        <id column="id" jdbcType="INTEGER" property="id" />
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="role" jdbcType="VARCHAR" property="role" />
+        <result column="role" jdbcType="INTEGER" property="role" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updateTime" />
+
     </resultMap>
 
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
          *
-        from USER
-        where id = #{id,jdbcType=BIGINT}
+        from e_user
+        where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectUserList" resultMap="BaseResultMap">
          select *
            FROM
-            USER
+            e_user
     </select>
     <select id="selectByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
          select count(1)
            FROM
-            USER
+            e_user
           where  name = #{name,jdbcType=VARCHAR}
     </select>
-    <select id="selectRoleByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.String">
+    <select id="selectRoleByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
          select role
            FROM
-            USER
+            e_user
           where  name = #{name,jdbcType=VARCHAR}
     </select>
 
@@ -38,25 +41,31 @@
     <select id="login" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
          select count(1)
            FROM
-            USER
+            e_user
             where
              name = #{name,jdbcType=VARCHAR}
              and password = #{password,jdbcType=VARCHAR}
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-         delete from  USER
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
+ <!--   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+         delete from  e_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>-->
 
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.item.vote.bean.User">
-        insert into  USER
+        insert into  e_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
                 name,
             </if>
             <if test="password != null">
                 password,
+            </if>
+            <if test="createTime != null">
+                created_at,
+            </if>
+            <if test="updateTime != null">
+                updated_at,
             </if>
 
         </trim>
@@ -68,11 +77,17 @@
                 #{password,jdbcType=VARCHAR},
             </if>
 
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.item.vote.bean.User">
-        update USER
+ <!--   <update id="updateByPrimaryKeySelective" parameterType="com.item.vote.bean.User">
+        update e_user
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
@@ -82,9 +97,9 @@
             </if>
 
         </set>
-        where id = #{id,jdbcType=BIGINT}
-        and  role != 'manager'
-    </update>
+        where id = #{id,jdbcType=INTEGER}
+        and  role != 1
+    </update>-->
 
 
 

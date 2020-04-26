@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface E_UserMapper {
 
 
 
@@ -15,13 +15,13 @@ public interface UserMapper {
 
     int selectByUserName(User user);   //通过用户名获取用户
 
-    String selectRoleByUserName(User user); //通过用户名获取角色
+    Integer selectRoleByUserName(User user); //通过用户名获取角色
 
-    int deleteByPrimaryKey(Long id); //通过id删除用户
+    //int deleteByPrimaryKey(Integer id); //通过id删除用户
 
-    int updateByPrimaryKeySelective(User user); //通过id修改用户信息
+   // int updateByPrimaryKeySelective(User user); //通过id修改用户信息
 
-    User selectByPrimaryKey(Long id);//通过id获取用户信息
+    User selectByPrimaryKey(Integer id);//通过id获取用户信息
 
     List<User> selectUserList(); //获取所有用户列表
 

@@ -2,23 +2,11 @@ package com.item.vote.service;
 
 import com.item.vote.bean.User;
 
-import java.util.List;
-
 public interface UserService {
-    int create(User user);
 
-    int update(Long id, User user);
+    int create(User user); //创建用户
 
-    int delete(Long id);
-
-    User getUserById(Long id);
-
-    List<User> getUserList();
-
-    int login(User user);
-
-    int userNameExist(User user);
-
-    String selectRoleByUserName(User user);
+    int userNameExist(User user); //创建用户中的查重
+    User getUserById(Integer id); //创建用户中的通过用户id查用户信息
 
 }
