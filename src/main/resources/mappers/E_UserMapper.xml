@@ -11,18 +11,31 @@
         <result column="updated_at" jdbcType="TIMESTAMP" property="updateTime" />
 
     </resultMap>
+    <update id="updatePwd"  parameterType="com.item.vote.bean.User" >
+        update e_user
+        <set>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                updated_at = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where name = #{name,jdbcType=VARCHAR}
+        and  role = 0
+    </update>
 
-
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-         *
-        from e_user
-        where id = #{id,jdbcType=INTEGER}
-    </select>
+    <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">-->
+        <!--select-->
+         <!--id,name,role,created_at,updated_at-->
+        <!--from e_user-->
+        <!--where id = #{id,jdbcType=INTEGER}-->
+    <!--</select>-->
     <select id="selectUserList" resultMap="BaseResultMap">
-         select *
+         select id,name,role,created_at,updated_at
            FROM
             e_user
+            where role = 0
     </select>
     <select id="selectByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
          select count(1)
@@ -30,16 +43,16 @@
             e_user
           where  name = #{name,jdbcType=VARCHAR}
     </select>
-    <select id="selectRoleByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
-         select role
-           FROM
-            e_user
-          where  name = #{name,jdbcType=VARCHAR}
-    </select>
+    <!--<select id="selectRoleByUserName" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">-->
+         <!--select role-->
+           <!--FROM-->
+            <!--e_user-->
+          <!--where  name = #{name,jdbcType=VARCHAR}-->
+    <!--</select>-->
 
 
-    <select id="login" parameterType="com.item.vote.bean.User" resultType="java.lang.Integer">
-         select count(1)
+    <select id="login" parameterType="com.item.vote.bean.User"  resultMap="BaseResultMap">
+         select id,name,role,created_at,updated_at
            FROM
             e_user
             where

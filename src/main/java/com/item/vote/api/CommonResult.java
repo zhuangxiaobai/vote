@@ -11,17 +11,27 @@ public class CommonResult<T> {
     protected CommonResult() {
     }
 
-//    protected CommonResult(long code, String message) {
-//        this.code = code;
-//        this.message = message;
-//
-//    }
+    protected CommonResult(long code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
     protected CommonResult(long code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
+
+
+    /**
+     * 用户名已经存在时候返回数据
+     *
+     */
+    public static  CommonResult userExist() {
+        return new CommonResult(ResultCode.USERNAMEEXIST.getCode(), ResultCode.USERNAMEEXIST.getMessage());
+    }
+
+
 
     /**
      * 成功返回结果

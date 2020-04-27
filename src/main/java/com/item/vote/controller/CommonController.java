@@ -31,20 +31,20 @@ public class CommonController {
 
 
         CommonResult commonResult;
-        int count = commonService.login(user);
-        if (count == 1) {
+        User userBack = commonService.login(user);
+        if (userBack != null) {
 
-            Integer role = commonService.selectRoleByUserName(user);
+           // Integer role = commonService.selectRoleByUserName(user);
 
 
             //存放在session
-            request.getSession().setAttribute("sessionUserName",user.getName());
-            request.getSession().setAttribute("sessionUserRole",Integer.toString(role));
+            request.getSession().setAttribute("sessionUserId",Integer.toString(userBack.getId()));
+            request.getSession().setAttribute("sessionUserRole",Integer.toString(userBack.getRole()));
             request.getSession().setMaxInactiveInterval(1800);//单位：秒   默认30分钟。
 
             //存放cookie
-            Cookie cookie1 = new Cookie("cookieUserName", user.getName());
-            Cookie cookie2 = new Cookie("cookieUserRole", Integer.toString(role));
+            Cookie cookie1 = new Cookie("cookieUserId", Integer.toString(userBack.getId()));
+            Cookie cookie2 = new Cookie("cookieUserRole", Integer.toString(userBack.getRole()));
             cookie1.setMaxAge(30 * 60);// 设置为30min
             cookie2.setMaxAge(30 * 60);// 设置为30min
             cookie1.setPath("/");
@@ -52,7 +52,7 @@ public class CommonController {
             response.addCookie(cookie1);
             response.addCookie(cookie2);
 
-            commonResult = CommonResult.success("登陆成功");
+            commonResult = CommonResult.success(userBack);
             //  LOGGER.debug("create success:{}", user);
         } else {
             commonResult = CommonResult.failed("登录失败");

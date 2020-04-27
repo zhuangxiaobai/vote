@@ -3,23 +3,21 @@ package com.item.vote.bean;
 import com.item.vote.util.DateUtil;
 import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 用户管理员通用
- */
 @Data
-public class User {
+public class Vote {
 
     private Integer id;
 
     private String name;
 
-    private String password;
+    private Integer type;
 
+    private Integer status;
 
-    private Integer role;
+    //传过来的用逗号分隔的字符串
+    private String options;
 
     private Date createTime;
 

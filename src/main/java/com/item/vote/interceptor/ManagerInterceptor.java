@@ -60,8 +60,8 @@ public class ManagerInterceptor implements HandlerInterceptor {
         PrintWriter out = null ;
         try{
             JSONObject res = new JSONObject();
-            res.put("code", ResultCode.FORBIDDEN.getCode());
-            res.put("message", ResultCode.FORBIDDEN.getMessage());
+            res.put("code", ResultCode.UNMANAGER.getCode());
+            res.put("message", ResultCode.UNMANAGER.getMessage());
             out = response.getWriter();
             out.append(res.toString());
 

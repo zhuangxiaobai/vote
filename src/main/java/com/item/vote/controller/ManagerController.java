@@ -3,6 +3,7 @@ package com.item.vote.controller;
 
 import com.item.vote.api.CommonResult;
 import com.item.vote.bean.User;
+import com.item.vote.bean.Vote;
 import com.item.vote.service.ManagerService;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,63 @@ public class ManagerController {
     public CommonResult<List<User>> getUserList() {
         return CommonResult.success(managerService.getUserList());
     }
+
+
+
+    //@ApiOperation("新增投票")
+    @RequestMapping(value = "/createVote", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult createVote(@RequestBody Vote vote) {
+        CommonResult commonResult;
+
+            int count = managerService.createVote(vote);
+            if (count == 1) {
+                commonResult = CommonResult.success("创建投票成功");
+            } else {
+                commonResult = CommonResult.failed("创建投票失败");
+
+            }
+
+        return commonResult;
+    }
+
+    //@ApiOperation("修改投票")
+    @RequestMapping(value = "/updateVote/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updateVote(@PathVariable("id") Integer id, @RequestBody Vote vote) {
+        CommonResult commonResult;
+
+        int count = managerService.updateVote(id,vote);
+        if (count == 1) {
+            commonResult = CommonResult.success("修改投票成功");
+        } else {
+            commonResult = CommonResult.failed("修改投票失败");
+
+        }
+
+        return commonResult;
+    }
+
+    //@ApiOperation("删除投票")
+    @RequestMapping(value = "/deleteVote/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult deleteVote(@PathVariable("id") Integer id) {
+        CommonResult commonResult;
+
+        int count = managerService.deleteVote(id);
+        if (count == 1) {
+            commonResult = CommonResult.success("删除投票成功");
+        } else {
+            commonResult = CommonResult.failed("删除投票失败");
+
+        }
+
+        return commonResult;
+    }
+
+
+
+
 
 
 

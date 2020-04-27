@@ -35,17 +35,17 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         if (session != null){
             //在拦截器里面判断此用户在不在session中如果在过，不在不让过返回提示让去登录
-            String sessionUserName=(String)session.getAttribute("sessionUserName");
-            if (sessionUserName != null){
-                System.out.println("session中的用户名:"+sessionUserName);
+            String sessionUserId=(String)session.getAttribute("sessionUserId");
+            if (sessionUserId != null){
+                System.out.println("session中的用户id:"+sessionUserId);
 
 
                 Cookie[] cookies = request.getCookies();
                 if(cookies != null) {
                     for(int i=0; i<cookies.length; i++){
                         Cookie cookie = cookies[i];
-                        if("cookieUserName".equals(cookie.getName())){
-                            if(sessionUserName.equals(cookie.getValue())){
+                        if("cookieUserId".equals(cookie.getName())){
+                            if(sessionUserId.equals(cookie.getValue())){
                                 System.out.println("=========成功通过登录拦截器===================");
                                 return true;
                             }

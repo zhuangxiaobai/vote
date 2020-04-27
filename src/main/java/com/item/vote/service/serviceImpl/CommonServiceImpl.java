@@ -15,13 +15,13 @@ public class CommonServiceImpl implements CommonService {
 
 
     @Override
-    public int login(User user) {
+    public User login(User user) {
         return EUserMapper.login(user);
     }
 
-    @Override
-    public Integer selectRoleByUserName(User user) {
-
-        return EUserMapper.selectRoleByUserName(user);
-    }
+//    @Override
+//    public Integer selectRoleByUserName(User user) {
+//
+//        return EUserMapper.selectRoleByUserName(user);
+//    }
 }

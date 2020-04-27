@@ -35,8 +35,9 @@ public class UserController {
             int count = userService.create(user);
             if (count == 1) {
                 //成功之后通过返回的id去查一遍数据库返回所有数据
-                commonResult = CommonResult.success(userService.getUserById(user.getId()));
+                //commonResult = CommonResult.success(userService.getUserById(user.getId()));
                 //  LOGGER.debug("create success:{}", user);
+                commonResult = CommonResult.success("创建用户成功");
             } else {
                 commonResult = CommonResult.failed("创建用户错误,注册失败");
                 //  LOGGER.debug("create failed:{}", user);
@@ -44,13 +45,28 @@ public class UserController {
 
         }else{
             //注册用户重名了
-            commonResult = CommonResult.validateFailed("用户名已经存在,注册失败");
+           commonResult = CommonResult.userExist();
         }
 
         return commonResult;
     }
 
+    //@ApiOperation("修改密码")
+    @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult updatePwd(@RequestBody User user) {
+        CommonResult commonResult;
 
+        int count = userService.updatePwd(user);
+        if (count == 1) {
+            commonResult = CommonResult.success("密码修改成功");
+        } else {
+            commonResult = CommonResult.failed("密码修改失败");
+
+        }
+
+        return commonResult;
+    }
 
 
 

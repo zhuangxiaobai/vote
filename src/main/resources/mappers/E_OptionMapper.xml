@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.item.vote.mapper.E_OptionMapper">
+
+    <resultMap id="BaseResultOptionMap" type="com.item.vote.bean.Option">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="p_id" property="p_id" jdbcType="INTEGER" />
+        <result column="number" property="number" jdbcType="INTEGER" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+
+
+
+
+    <insert id="createOptions" parameterType="java.util.List">
+        insert into
+        e_option (name,p_id,created_at,updated_at)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.name,jdbcType=VARCHAR},
+            #{item.p_id,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+
+
+
+</mapper>

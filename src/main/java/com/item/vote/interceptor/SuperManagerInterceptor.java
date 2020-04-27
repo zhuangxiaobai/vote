@@ -53,8 +53,8 @@ public class SuperManagerInterceptor implements HandlerInterceptor {
         PrintWriter out = null ;
         try{
             JSONObject res = new JSONObject();
-            res.put("code", ResultCode.FORBIDDEN.getCode());
-            res.put("message", ResultCode.FORBIDDEN.getMessage());
+            res.put("code", ResultCode.UNSUPERMANAGER.getCode());
+            res.put("message", ResultCode.UNSUPERMANAGER.getMessage());
             out = response.getWriter();
             out.append(res.toString());
 

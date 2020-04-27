@@ -3,23 +3,19 @@ package com.item.vote.bean;
 import com.item.vote.util.DateUtil;
 import lombok.Data;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * 用户管理员通用
- */
 @Data
-public class User {
+public class Option {
+
 
     private Integer id;
 
     private String name;
 
-    private String password;
+    private Integer p_id;
 
-
-    private Integer role;
+    private Integer number;
 
     private Date createTime;
 
@@ -32,6 +28,8 @@ public class User {
     public String getUpdateTime() {
         return DateUtil.dateToString(updateTime);
     }
+
+
 
 
 }

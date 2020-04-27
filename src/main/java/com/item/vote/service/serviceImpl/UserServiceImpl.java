@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int create(User user) {
 
 
@@ -36,7 +36,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Integer id) {
-        return  EUserMapper.selectByPrimaryKey(id);
+    public int updatePwd(User user) {
+        Date date = new Date();
+
+        user.setUpdateTime(date);
+
+        return EUserMapper.updatePwd(user);
     }
+
+//    @Override
+//    public User getUserById(Integer id) {
+//        return  EUserMapper.selectByPrimaryKey(id);
+//    }
 }
