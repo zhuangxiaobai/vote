@@ -14,6 +14,25 @@
 
 
 
+    <select id="selectOptionById" resultMap="BaseResultOptionMap">
+      select id,name,p_id,number,created_at,updated_at
+       FROM
+       e_option
+      where  id = #{optionId,jdbcType=INTEGER}
+    </select>
+ <!--   <select id="selectOptionsByVoteId" resultType="java.lang.Integer">
+      select count(1)
+       FROM
+       e_option
+      where  p_id = #{p_id,jdbcType=INTEGER}
+    </select>-->
+
+    <select id="selectOptionListByVoteId" resultMap="BaseResultOptionMap">
+      select id,name,p_id,number,created_at,updated_at
+       FROM
+       e_option
+      where  p_id = #{voteId,jdbcType=INTEGER}
+    </select>
 
     <insert id="createOptions" parameterType="java.util.List">
         insert into
@@ -30,6 +49,10 @@
     </insert>
 
 
+   <!-- <delete id="deleteOptionsByVoteId" parameterType="java.lang.Integer">
+         delete from  e_option
+         where p_id = #{p_id,jdbcType=INTEGER}
+    </delete>-->
 
 
 </mapper>

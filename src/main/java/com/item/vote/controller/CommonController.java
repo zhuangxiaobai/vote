@@ -2,6 +2,7 @@ package com.item.vote.controller;
 
 import com.item.vote.api.CommonResult;
 import com.item.vote.bean.User;
+import com.item.vote.model.VoteVo;
 import com.item.vote.service.CommonService;
 import com.item.vote.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
+import java.util.List;
 
 //@Api(tags = "UserController", description = "管理员和用户通用的行为 登录登出")
 @Controller
@@ -94,6 +96,16 @@ public class CommonController {
         return commonResult;
 
     }
+
+
+    // @ApiOperation("获取投票列表不分页")
+    @RequestMapping(value = "/voteList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<VoteVo>> getVoteList() {
+        return CommonResult.success(commonService.getVoteVoList());
+    }
+
+
 
 
 

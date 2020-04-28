@@ -3,9 +3,29 @@
 <mapper namespace="com.item.vote.mapper.E_VoteMapper">
 
 
+     <resultMap id="BaseResultVoteMap" type="com.item.vote.bean.Vote">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updateTime" />
 
+    </resultMap>
 
+    <select id="selectVoteList" resultMap="BaseResultVoteMap">
+         select id,name,type,status,created_at,updated_at
+           FROM
+            e_vote
+            where status = 0
+    </select>
 
+    <select id="selectVoteById" resultMap="BaseResultVoteMap">
+         select id,name,type,status,created_at,updated_at
+           FROM
+            e_vote
+            where id = #{voteId,jdbcType=INTEGER}
+    </select>
 
 
     <insert id="createVote" useGeneratedKeys="true" keyProperty="id" parameterType="com.item.vote.bean.Vote">
@@ -41,8 +61,28 @@
             </if>
         </trim>
     </insert>
+   <!-- <update id="updateVote" >
+        update e_vote
+        <set>
+            <if test="vote.name != null">
+                name = #{vote.name,jdbcType=VARCHAR},
+            </if>
+            <if test="vote.updateTime != null">
+                updated_at = #{vote.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>-->
 
+    <update id="deleteVoteById" parameterType="com.item.vote.bean.User">
+        update e_vote
+        <set>
+                status = 2,
+                updated_at = CURRENT_TIMESTAMP
+        </set>
+        where id = #{id,jdbcType=INTEGER}
 
+    </update>
 
 
 </mapper>

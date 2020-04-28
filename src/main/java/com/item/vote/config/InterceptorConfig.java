@@ -31,7 +31,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
        //管理员拦截器，在登录拦截器之后，主要拦截一些管理员和超级管理员的操作
         InterceptorRegistration interceptorRegistry2=registry.addInterceptor(new ManagerInterceptor());
         interceptorRegistry2.addPathPatterns("/manager/*")
-              //  .excludePathPatterns("/manager/delete")
                 .excludePathPatterns("/error");
 
 
@@ -39,7 +38,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
         //超级管理员拦截器，在最后，主要拦截超级管理员的操作
         InterceptorRegistration interceptorRegistry3=registry.addInterceptor(new SuperManagerInterceptor());
-        interceptorRegistry3.addPathPatterns("/manager/deleteVote")
+        interceptorRegistry3.addPathPatterns("/manager/deleteVote/*")
                 .excludePathPatterns("/error");
 
 

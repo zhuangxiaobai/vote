@@ -18,4 +18,9 @@ public interface ManagerService {
 
 
     int createVote(Vote vote);//创建投票
+
+    int updateVote(Integer id, Vote vote); //修改投票
+
+
+    int deleteVote(Integer id);  //删除投票
 }

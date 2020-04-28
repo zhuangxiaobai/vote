@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.item.vote.mapper.E_LogMapper">
+
+
+     <resultMap id="BaseResultLogMap" type="com.item.vote.bean.Log">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="vid" jdbcType="INTEGER" property="vid" />
+        <result column="uid" jdbcType="INTEGER" property="uid" />
+        <result column="oid" jdbcType="INTEGER" property="oid" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updateTime" />
+
+    </resultMap>
+
+    <select id="selectLogsByUId" resultMap="BaseResultLogMap">
+         select id,vid,uid,oid,created_at,updated_at
+           FROM
+            e_log
+            where  uid= #{uid,jdbcType=INTEGER}
+    </select>
+
+
+    <insert id="create" >
+        insert into  e_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="vid != null">
+                vid,
+            </if>
+            <if test="oid != null">
+                oid,
+            </if>
+                created_at,
+                updated_at
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="vid != null">
+                #{vid,jdbcType=INTEGER},
+            </if>
+            <if test="oid != null">
+                #{oid,jdbcType=INTEGER},
+            </if>
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+
+        </trim>
+    </insert>
+
+</mapper>

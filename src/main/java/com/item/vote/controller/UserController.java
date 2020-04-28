@@ -2,14 +2,15 @@ package com.item.vote.controller;
 
 import com.item.vote.api.CommonResult;
 import com.item.vote.bean.User;
+import com.item.vote.model.VoteUserSelect;
+import com.item.vote.model.VoteVo;
 import com.item.vote.service.ManagerService;
 import com.item.vote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //@Api(tags = "UserController", description = "用户的注册，修改密码，查看投票，投票")
 @Controller
@@ -69,6 +70,34 @@ public class UserController {
     }
 
 
+    // @ApiOperation("获取用户投票历史记录")
+    @RequestMapping(value = "/userVoteList/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<VoteUserSelect>> getUserVoteList(@PathVariable("id") Integer id) {
+        return CommonResult.success(userService.getUserVoteList(id));
+    }
+
+
+    //@ApiOperation("用户投票")
+    @RequestMapping(value = "/doVote/{uid}/{vid}/{oid}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult doVote(@PathVariable("uid")Integer uid,@PathVariable("vid")Integer vid,@PathVariable("oid")Integer oid) {
+        CommonResult commonResult;
+
+            //创建用户
+            int count = userService.doVote(uid,vid,oid);
+            if (count == 1) {
+
+                commonResult = CommonResult.success("投票成功");
+            } else {
+                commonResult = CommonResult.failed("投票失败");
+
+            }
+
+
+
+        return commonResult;
+    }
 
 
 
