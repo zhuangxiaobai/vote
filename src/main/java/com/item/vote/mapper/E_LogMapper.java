@@ -14,4 +14,7 @@ public interface E_LogMapper {
 
 
     int create(@Param("uid") Integer uid, @Param("vid") Integer vid, @Param("oid") Integer oid);
+
+
+    int selectHaveVoted(@Param("uid") Integer uid, @Param("vid") Integer vid);
 }

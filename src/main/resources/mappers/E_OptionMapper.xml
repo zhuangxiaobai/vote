@@ -48,6 +48,23 @@
         </foreach>
     </insert>
 
+    <update id="updateNumber" >
+        update e_option
+        <set>
+
+             number = number + 1
+             ,
+             updated_at = CURRENT_TIMESTAMP
+
+
+        </set>
+        where id = #{oid,jdbcType=INTEGER}
+        and  p_id = #{vid,jdbcType=INTEGER}
+    </update>
+
+
+
+
 
    <!-- <delete id="deleteOptionsByVoteId" parameterType="java.lang.Integer">
          delete from  e_option

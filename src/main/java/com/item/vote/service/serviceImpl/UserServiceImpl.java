@@ -11,6 +11,7 @@ import com.item.vote.mapper.E_VoteMapper;
 import com.item.vote.model.VoteUserSelect;
 import com.item.vote.model.VoteVo;
 import com.item.vote.service.UserService;
+import com.item.vote.util.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,15 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public int create(User user) {
 
+        if (Md5.getMD5String(user.getPassword()) == null){
+            return 0;
+        }
+        user.setPassword(Md5.getMD5String(user.getPassword()));
 
+
+
+
+      //  System.out.println("md5--"+Md5.getMD5String(user.getPassword()));
         Date date = new Date();
         user.setCreateTime(date);
         user.setUpdateTime(date);
@@ -61,6 +70,10 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
 
         user.setUpdateTime(date);
+        if (Md5.getMD5String(user.getPassword()) == null){
+            return 0;
+        }
+        user.setPassword(Md5.getMD5String(user.getPassword()));
 
         return EUserMapper.updatePwd(user);
     }
@@ -94,9 +107,35 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int doVote(Integer uid, Integer vid, Integer oid) {
+        //插入log表数据
+        int logResult = ELogMapper.create(uid,vid,oid);
+
+        if(logResult == 1){
+
+            //option表对应选项number + 1
+
+            int optionResult = EOptionMapper.updateNumber(vid,oid);
+           if(optionResult == 1){
+
+               return 1;
+           }
 
 
-        return ELogMapper.create(uid,vid,oid);
+
+        }
+
+
+
+        return 0;
+    }
+
+    @Override
+    public int haveVoted(Integer uid, Integer vid) {
+
+
+
+
+        return ELogMapper.selectHaveVoted(uid,vid);
     }
 
 //    @Override

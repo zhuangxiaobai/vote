@@ -20,6 +20,13 @@
             where  uid= #{uid,jdbcType=INTEGER}
     </select>
 
+    <select id="selectHaveVoted" resultType="java.lang.Integer">
+         select count(1)
+           FROM
+            e_log
+            where  uid= #{uid,jdbcType=INTEGER}
+            and  vid = #{vid,jdbcType=INTEGER}
+    </select>
 
     <insert id="create" >
         insert into  e_log

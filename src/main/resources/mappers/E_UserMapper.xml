@@ -99,6 +99,9 @@
         </trim>
     </insert>
 
+
+
+
  <!--   <update id="updateByPrimaryKeySelective" parameterType="com.item.vote.bean.User">
         update e_user
         <set>

@@ -19,4 +19,6 @@ public interface E_OptionMapper {
     List<Option> selectOptionListByVoteId(Integer voteId);
 
     Option selectOptionById(Integer optionId);
+
+    int updateNumber(@Param("vid")Integer vid,@Param("oid") Integer oid);
 }

@@ -8,6 +8,7 @@ import com.item.vote.mapper.E_UserMapper;
 import com.item.vote.mapper.E_VoteMapper;
 import com.item.vote.model.VoteVo;
 import com.item.vote.service.CommonService;
+import com.item.vote.util.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public User login(User user) {
+
+        user.setPassword(Md5.getMD5String(user.getPassword()));
+
         return EUserMapper.login(user);
     }
 

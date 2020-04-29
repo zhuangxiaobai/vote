@@ -84,7 +84,10 @@ public class UserController {
     public CommonResult doVote(@PathVariable("uid")Integer uid,@PathVariable("vid")Integer vid,@PathVariable("oid")Integer oid) {
         CommonResult commonResult;
 
-            //创建用户
+            int haveVoted = userService.haveVoted(uid,vid);
+           if(haveVoted !=1){
+
+            //用户投票
             int count = userService.doVote(uid,vid,oid);
             if (count == 1) {
 
@@ -94,7 +97,9 @@ public class UserController {
 
             }
 
-
+           }else{
+               commonResult = CommonResult.failed("您已经进行过投票，请勿刷票");
+           }
 
         return commonResult;
     }
