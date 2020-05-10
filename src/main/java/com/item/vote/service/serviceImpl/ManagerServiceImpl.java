@@ -1,12 +1,16 @@
 package com.item.vote.service.serviceImpl;
 
+import com.item.vote.bean.Log;
 import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
 
 import com.item.vote.bean.Vote;
+import com.item.vote.mapper.E_LogMapper;
 import com.item.vote.mapper.E_OptionMapper;
 import com.item.vote.mapper.E_UserMapper;
 import com.item.vote.mapper.E_VoteMapper;
+import com.item.vote.model.UserVote;
+import com.item.vote.model.VoteId;
 import com.item.vote.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,8 @@ public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private E_OptionMapper EOptionMapper;
 
+    @Autowired
+    private E_LogMapper ELogMapper;
 
     @Override
     public List<User> getUserList() {
@@ -163,6 +169,49 @@ public class ManagerServiceImpl implements ManagerService {
 
 
         return EVoteMapper.deleteVoteById(id);
+    }
+
+    @Override
+    public VoteId getVotesById(Integer voteId) {
+       //新建返回前台的对象
+        VoteId votes = new VoteId();
+        List<UserVote> userVotes = new ArrayList<>();
+        UserVote userVote;
+        //通过voteId查询Log表获取了用户投票记录
+        List<Log> logList  = ELogMapper.selectLogsByVoteId(voteId);
+        for(Log log:logList){
+            Integer uid =  log.getUid();
+            User user  =  EUserMapper.selectByPrimaryKey(uid);
+            Integer oid =  log.getOid();
+            Option option = EOptionMapper.selectOptionByOidAndVid(oid,voteId);
+            userVote = new UserVote();
+           //获取用户名和选项名
+            userVote.setName(user.getName());
+            userVote.setOptionName(option.getName());
+
+            userVotes.add(userVote);
+        }
+
+
+
+
+
+
+
+        //通过voteId查询vote表
+        Vote vote = EVoteMapper.selectVoteById(voteId);
+
+        //通过voteId查询Option表
+       List<Option> optionList = EOptionMapper.selectOptionListByVoteId(voteId);
+
+
+       votes.setVote(vote);
+       votes.setOptions(optionList);
+        votes.setUserVotes(userVotes);
+
+
+
+        return votes;
     }
 
 

@@ -17,4 +17,6 @@ public interface E_LogMapper {
 
 
     int selectHaveVoted(@Param("uid") Integer uid, @Param("vid") Integer vid);
+
+    List<Log> selectLogsByVoteId(@Param("voteId") Integer voteId);
 }

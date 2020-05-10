@@ -4,7 +4,10 @@ package com.item.vote.controller;
 import com.item.vote.api.CommonResult;
 import com.item.vote.bean.User;
 import com.item.vote.bean.Vote;
+import com.item.vote.model.VoteId;
 import com.item.vote.service.ManagerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.List;
 
-//@Api(tags = "UserController", description = "管理员的行为")
+@Api(tags = "ManagerController", description = "管理员的行为，分为管理员和超级管理员")
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
@@ -26,7 +29,7 @@ public class ManagerController {
   //  private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
 
-    // @ApiOperation("获取用户列表不分页")
+    @ApiOperation("获取用户列表不分页")
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<User>> getUserList() {
@@ -35,7 +38,7 @@ public class ManagerController {
 
 
 
-    //@ApiOperation("新增投票")
+    @ApiOperation("新增投票")
     @RequestMapping(value = "/createVote", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult createVote(@RequestBody Vote vote) {
@@ -52,7 +55,7 @@ public class ManagerController {
         return commonResult;
     }
 
-    //@ApiOperation("修改投票")
+    @ApiOperation("修改投票")
     @RequestMapping(value = "/updateVote/{id}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updateVote(@PathVariable("id") Integer id, @RequestBody Vote vote) {
@@ -69,7 +72,7 @@ public class ManagerController {
         return commonResult;
     }
 
-    //@ApiOperation("删除投票")
+    @ApiOperation("删除投票")
     @RequestMapping(value = "/deleteVote/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult deleteVote(@PathVariable("id") Integer id) {
@@ -87,11 +90,12 @@ public class ManagerController {
     }
 
 
-
-
-
-
-
+    @ApiOperation("获取指定voteId下的详情")
+    @RequestMapping(value = "/queryVote/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<VoteId> getVotesById(@PathVariable("id") Integer voteId) {
+        return CommonResult.success(managerService.getVotesById(voteId));
+    }
 
 
 

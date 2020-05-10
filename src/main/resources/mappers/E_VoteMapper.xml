@@ -20,6 +20,15 @@
             where status = 0
     </select>
 
+    <select id="selectVoteListLimit" resultMap="BaseResultVoteMap">
+         select id,name,type,status,created_at,updated_at
+           FROM
+            e_vote
+            where status = 0 and created_at <![CDATA[>]]>DATE_SUB(CURDATE(),INTERVAL 7 DAY)
+    </select>
+
+
+
     <select id="selectVoteById" resultMap="BaseResultVoteMap">
          select id,name,type,status,created_at,updated_at
            FROM
@@ -61,18 +70,7 @@
             </if>
         </trim>
     </insert>
-   <!-- <update id="updateVote" >
-        update e_vote
-        <set>
-            <if test="vote.name != null">
-                name = #{vote.name,jdbcType=VARCHAR},
-            </if>
-            <if test="vote.updateTime != null">
-                updated_at = #{vote.updateTime,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>-->
+
 
     <update id="deleteVoteById" parameterType="com.item.vote.bean.User">
         update e_vote
@@ -83,6 +81,17 @@
         where id = #{id,jdbcType=INTEGER}
 
     </update>
-
+    <!-- <update id="updateVote" >
+           update e_vote
+           <set>
+               <if test="vote.name != null">
+                   name = #{vote.name,jdbcType=VARCHAR},
+               </if>
+               <if test="vote.updateTime != null">
+                   updated_at = #{vote.updateTime,jdbcType=TIMESTAMP},
+               </if>
+           </set>
+           where id = #{id,jdbcType=INTEGER}
+       </update>-->
 
 </mapper>

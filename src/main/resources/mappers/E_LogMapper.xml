@@ -28,6 +28,13 @@
             and  vid = #{vid,jdbcType=INTEGER}
     </select>
 
+    <select id="selectLogsByVoteId" resultMap="BaseResultLogMap">
+         select id,vid,uid,oid,created_at,updated_at
+           FROM
+            e_log
+            where  vid= #{voteId,jdbcType=INTEGER}
+    </select>
+
     <insert id="create" >
         insert into  e_log
         <trim prefix="(" suffix=")" suffixOverrides=",">

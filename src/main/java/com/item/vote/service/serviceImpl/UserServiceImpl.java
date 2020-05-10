@@ -138,6 +138,37 @@ public class UserServiceImpl implements UserService {
         return ELogMapper.selectHaveVoted(uid,vid);
     }
 
+    @Override
+    public List<VoteVo> getVoteListLimit() {
+
+        List<Vote>  voteList  = EVoteMapper.selectVoteListLimit();
+        //返回前台的对象集合
+        List<VoteVo>  voteVoList = new ArrayList<>();
+        VoteVo voteVo;
+        for (Vote vote:voteList){
+            voteVo = new VoteVo();
+            voteVo.setVote(vote);
+
+            List<Option>  optionList  = EOptionMapper.selectOptionListByVoteId(vote.getId());
+
+            voteVo.setOptionList(optionList);
+            voteVoList.add(voteVo);
+
+        }
+
+
+
+        return voteVoList;
+    }
+
+    @Override
+    public List<Option> getOptions(Integer vid) {
+
+
+        return EOptionMapper.selectOptionListByVoteId(vid);
+    }
+
+
 //    @Override
 //    public User getUserById(Integer id) {
 //        return  EUserMapper.selectByPrimaryKey(id);

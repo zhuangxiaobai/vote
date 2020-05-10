@@ -1,18 +1,22 @@
 package com.item.vote.controller;
 
 import com.item.vote.api.CommonResult;
+import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
 import com.item.vote.model.VoteUserSelect;
 import com.item.vote.model.VoteVo;
 import com.item.vote.service.ManagerService;
 import com.item.vote.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-//@Api(tags = "UserController", description = "用户的注册，修改密码，查看投票，投票")
+@Api(tags = "UserController", description = "用户的行为")
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -23,10 +27,10 @@ public class UserController {
 
 
 
-    //@ApiOperation("用户注册")
+    @ApiOperation("用户注册")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult create(@RequestBody User user) {
+    public CommonResult create(@RequestBody @Valid User user) {
         CommonResult commonResult;
         //用户名查重
         int userNameExist = userService.userNameExist(user);
@@ -52,7 +56,7 @@ public class UserController {
         return commonResult;
     }
 
-    //@ApiOperation("修改密码")
+    @ApiOperation("修改密码")
     @RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult updatePwd(@RequestBody User user) {
@@ -70,7 +74,7 @@ public class UserController {
     }
 
 
-    // @ApiOperation("获取用户投票历史记录")
+    @ApiOperation("获取用户投票历史记录")
     @RequestMapping(value = "/userVoteList/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<VoteUserSelect>> getUserVoteList(@PathVariable("id") Integer id) {
@@ -78,7 +82,21 @@ public class UserController {
     }
 
 
-    //@ApiOperation("用户投票")
+
+    @ApiOperation("获取创建时间为7天内的投票列表")
+    @RequestMapping(value = "/voteListLimit", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<VoteVo>> getVoteListLimit() {
+        return CommonResult.success(userService.getVoteListLimit());
+    }
+
+
+
+
+
+
+
+    @ApiOperation("用户投票")
     @RequestMapping(value = "/doVote/{uid}/{vid}/{oid}", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult doVote(@PathVariable("uid")Integer uid,@PathVariable("vid")Integer vid,@PathVariable("oid")Integer oid) {
@@ -90,8 +108,11 @@ public class UserController {
             //用户投票
             int count = userService.doVote(uid,vid,oid);
             if (count == 1) {
+                //去获取各个option的number
+               List<Option> optionList = userService.getOptions(vid);
 
-                commonResult = CommonResult.success("投票成功");
+
+                commonResult = CommonResult.success(optionList);
             } else {
                 commonResult = CommonResult.failed("投票失败");
 
