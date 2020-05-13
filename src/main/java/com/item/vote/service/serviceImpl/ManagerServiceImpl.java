@@ -5,6 +5,7 @@ import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
 
 import com.item.vote.bean.Vote;
+import com.item.vote.exception.BusinessException;
 import com.item.vote.mapper.E_LogMapper;
 import com.item.vote.mapper.E_OptionMapper;
 import com.item.vote.mapper.E_UserMapper;
@@ -52,8 +53,8 @@ public class ManagerServiceImpl implements ManagerService {
       //插入vote表
        int resultVote  = EVoteMapper.createVote(vote);
       if(resultVote != 1){
-          //throw new RuntimeException();
-          return  0;
+        //  throw new RuntimeException();
+          throw new BusinessException();
       }
 
           Integer voteId = vote.getId();
@@ -72,9 +73,9 @@ public class ManagerServiceImpl implements ManagerService {
 
           int resultOption = EOptionMapper.createOptions(optionList);
 
-          if (resultOption != optionsArray.length) {
-             // throw new RuntimeException();
-              return 0;
+          if (resultOption == optionsArray.length) {
+              throw new BusinessException();
+             // return 0;
           }
 
 
@@ -106,12 +107,12 @@ public class ManagerServiceImpl implements ManagerService {
         //删除此投票数据
         int deleteVoteById   = EVoteMapper.deleteVoteById(id);
         if(deleteVoteById !=1){
-           return 0;
+          throw new BusinessException();
          }
        //新增投票数据
          int createVoteById = EVoteMapper.createVote(vote);
         if(createVoteById !=1){
-            return 0;
+            throw new BusinessException();
         }
 
 
@@ -142,7 +143,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         if (resultOption != optionsArray.length) {
             // throw new RuntimeException();
-            return 0;
+            throw new BusinessException();
         }
 
 

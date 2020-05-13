@@ -1,19 +1,21 @@
 package com.item.vote.controller;
 
 import com.item.vote.api.CommonResult;
+import com.item.vote.api.ResultCode;
 import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
+import com.item.vote.exception.BusinessException;
 import com.item.vote.model.VoteUserSelect;
 import com.item.vote.model.VoteVo;
-import com.item.vote.service.ManagerService;
 import com.item.vote.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "UserController", description = "用户的行为")
@@ -30,7 +32,11 @@ public class UserController {
     @ApiOperation("用户注册")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult create(@RequestBody @Valid User user) {
+    public CommonResult create(@RequestBody @Validated User user) {
+     /*   if (bindingResult.hasErrors()) {
+            throw new BusinessException(bindingResult.getFieldError().getDefaultMessage());
+        }*/
+
         CommonResult commonResult;
         //用户名查重
         int userNameExist = userService.userNameExist(user);
@@ -50,7 +56,8 @@ public class UserController {
 
         }else{
             //注册用户重名了
-           commonResult = CommonResult.userExist();
+         //  commonResult = CommonResult.userExist();
+           throw new  BusinessException(ResultCode.USERNAMEEXIST);
         }
 
         return commonResult;

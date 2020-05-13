@@ -3,6 +3,7 @@ package com.item.vote.interceptor;
 
 import cn.hutool.json.JSONObject;
 import com.item.vote.api.ResultCode;
+import com.item.vote.exception.BusinessException;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,7 +56,7 @@ public class ManagerInterceptor implements HandlerInterceptor {
 
 
 
-        response.setCharacterEncoding("UTF-8");
+       /* response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null ;
         try{
@@ -74,6 +75,9 @@ public class ManagerInterceptor implements HandlerInterceptor {
 
             return false;
         }
+*/
+
+       throw  new BusinessException(ResultCode.UNMANAGER);
 
     }
 

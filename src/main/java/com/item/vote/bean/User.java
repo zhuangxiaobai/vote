@@ -16,7 +16,7 @@ public class User {
 
     private Integer id;
 
-    @Email
+    //@Email
     @ApiModelProperty(value = "此字段为email格式")
     private String name;
 

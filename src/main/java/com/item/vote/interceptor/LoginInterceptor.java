@@ -3,6 +3,7 @@ package com.item.vote.interceptor;
 import cn.hutool.json.JSONObject;
 import com.item.vote.api.CommonResult;
 import com.item.vote.api.ResultCode;
+import com.item.vote.exception.BusinessException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -59,7 +60,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         }
 
-        response.setCharacterEncoding("UTF-8");
+     /*   response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null ;
         try{
@@ -79,7 +80,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         }finally{
 
             return false;
-        }
+        }*/
+
+      throw  new BusinessException(ResultCode.UNAUTHORIZEDSESSION);
 
     }
 
