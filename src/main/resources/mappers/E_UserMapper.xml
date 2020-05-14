@@ -44,7 +44,12 @@
           where  name = #{name,jdbcType=VARCHAR}
     </select>
 
-
+    <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap" >
+         select id,name,role,created_at,updated_at
+           FROM
+            e_user
+          where  name = #{name,jdbcType=VARCHAR}
+    </select>
 
     <select id="login" parameterType="com.item.vote.bean.User"  resultMap="BaseResultMap">
          select id,name,role,created_at,updated_at

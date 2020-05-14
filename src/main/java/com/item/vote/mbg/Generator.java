@@ -15,7 +15,6 @@ import java.util.List;
  *
  */
 public class Generator {
-
     public static void main(String[] args) throws Exception {
         //MBG 执行过程中的警告信息
         List<String> warnings = new ArrayList<String>();
@@ -37,5 +36,4 @@ public class Generator {
             System.out.println(warning);
         }
     }
-
 }

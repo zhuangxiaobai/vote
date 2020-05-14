@@ -5,6 +5,8 @@ import com.item.vote.api.ResultCode;
 import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
 import com.item.vote.exception.BusinessException;
+import com.item.vote.mbg.mapper.EUserMapper;
+import com.item.vote.mbg.model.EUserExample;
 import com.item.vote.model.VoteUserSelect;
 import com.item.vote.model.VoteVo;
 import com.item.vote.service.UserService;
@@ -80,11 +82,18 @@ public class UserController {
         return commonResult;
     }
 
+    @Autowired
+    private EUserMapper eUserMapper;
 
     @ApiOperation("获取用户投票历史记录")
     @RequestMapping(value = "/userVoteList/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<VoteUserSelect>> getUserVoteList(@PathVariable("id") Integer id) {
+        EUserExample eUserExample = new EUserExample();
+        EUserExample.Criteria criteria = eUserExample.createCriteria();
+        //criteria.andCreatedAtBetween()
+        System.out.println(eUserMapper.selectByExample(eUserExample));
+
         return CommonResult.success(userService.getUserVoteList(id));
     }
 

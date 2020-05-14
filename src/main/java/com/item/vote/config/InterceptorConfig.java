@@ -1,6 +1,7 @@
 
 package com.item.vote.config;
 
+import com.item.vote.interceptor.JwtLoginInterceptor;
 import com.item.vote.interceptor.ManagerInterceptor;
 import com.item.vote.interceptor.LoginInterceptor;
 import com.item.vote.interceptor.SuperManagerInterceptor;
@@ -24,7 +25,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //登录拦截器
-        InterceptorRegistration interceptorRegistry=registry.addInterceptor(new LoginInterceptor());
+       // InterceptorRegistration interceptorRegistry=registry.addInterceptor(new LoginInterceptor());
+         InterceptorRegistration interceptorRegistry=registry.addInterceptor(new JwtLoginInterceptor());
         //用户注册不拦截，随时注册
         //用户登录不拦截，去登录接口里面执行登录操作成功就存入session
         interceptorRegistry.addPathPatterns("/**") //需要拦截的路径

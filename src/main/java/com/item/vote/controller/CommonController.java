@@ -6,6 +6,7 @@ import com.item.vote.model.VoteVo;
 import com.item.vote.service.CommonService;
 
 
+import com.item.vote.util.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,9 @@ public class CommonController {
     @Autowired
     private CommonService commonService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
@@ -46,7 +50,7 @@ public class CommonController {
            // Integer role = commonService.selectRoleByUserName(user);
 
 
-           //存放在session
+       /*    //存放在session
             request.getSession().setAttribute("sessionUserId",Integer.toString(userBack.getId()));
             request.getSession().setAttribute("sessionUserRole",Integer.toString(userBack.getRole()));
             request.getSession().setMaxInactiveInterval(1800);//单位：秒   默认30分钟。
@@ -58,9 +62,13 @@ public class CommonController {
             cookie1.setPath("/");
             cookie2.setPath("/");
             response.addCookie(cookie1);
-            response.addCookie(cookie2);
+            response.addCookie(cookie2);*/
 
-            commonResult = CommonResult.success(userBack);
+
+
+
+
+            commonResult = CommonResult.success(jwtTokenUtil.generateToken(user));
             //  LOGGER.debug("create success:{}", user);
         } else {
             commonResult = CommonResult.failed("登录失败");
