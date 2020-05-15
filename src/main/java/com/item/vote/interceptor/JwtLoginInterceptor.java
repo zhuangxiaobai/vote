@@ -44,13 +44,18 @@ public class JwtLoginInterceptor implements HandlerInterceptor {
                 System.out.println("=========进入jwt登录拦截器===================");
 
                 String authHeader = request.getHeader(this.tokenHeader);
-                if (authHeader != null && authHeader.startsWith(this.tokenHead)) {
-                    String authToken = authHeader.substring(this.tokenHead.length());// The part after "Bearer "
+                System.out.println("header:"+authHeader);
+                if (authHeader != null){ //&& authHeader.startsWith(this.tokenHead)) {
+                    String authToken =  authHeader;
+                            //authHeader.substring(this.tokenHead.length());// The part after "Bearer "
                     String username = jwtTokenUtil.getUserNameFromToken(authToken);
+                    System.out.println(authToken);
+                    System.out.println("username:"+username);
                    // LOGGER.info("checking username:{}", username);
                     if (username != null ) {
                       //  User user = this.eUserMapper.selectByExample(new EUserExample());
                         user = this.e_userMapper.selectUserByUserName(username);
+                        System.out.println(user.toString());
                         if (jwtTokenUtil.validateToken(authToken, user)) {
 
 //                            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

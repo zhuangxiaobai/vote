@@ -27,7 +27,7 @@ import java.util.Map;
  * {"sub":"wang","created":1489079981393,"exp":1489684781}
  * signature的生成算法：
  * HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret)
- * Created by macro on 2018/4/26.
+ *
  */
 @Component
 public class JwtTokenUtil {
@@ -64,10 +64,12 @@ public class JwtTokenUtil {
     private Claims getClaimsFromToken(String token) {
         Claims claims = null;
         try {
-            claims = Jwts.parser()
+            /*claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
-                    .getBody();
+                    .getBody();*/
+            claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
+
         } catch (Exception e) {
             LOGGER.info("JWT格式验证失败:{}", token);
         }
