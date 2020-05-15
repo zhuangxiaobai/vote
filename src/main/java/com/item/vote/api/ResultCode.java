@@ -5,7 +5,7 @@ package com.item.vote.api;
  */
 public enum ResultCode implements IErrorCode {
     SUCCESS(0, "操作成功"),
-    FAILED(1, "操作失败"),
+    FAILED(-1, "操作失败"),
 
 
 

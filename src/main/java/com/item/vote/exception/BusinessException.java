@@ -2,15 +2,19 @@ package com.item.vote.exception;
 
 import com.item.vote.api.IErrorCode;
 
-public class BusinessException  extends RuntimeException{
-
-
-
+/**
+ * 自定义业务异常
+ */
+public class BusinessException extends RuntimeException {
     private IErrorCode errorCode;
 
     public BusinessException(IErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
+    }
+
+    public BusinessException() {
+       // super();
     }
 
     public BusinessException(String message) {
@@ -28,10 +32,4 @@ public class BusinessException  extends RuntimeException{
     public IErrorCode getErrorCode() {
         return errorCode;
     }
-
-
-
-
-
-
 }

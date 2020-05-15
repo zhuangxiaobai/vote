@@ -60,7 +60,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         }
 
-      /*  response.setCharacterEncoding("UTF-8");
+     /*   response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null ;
         try{
@@ -82,7 +82,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }*/
 
-      throw new BusinessException(ResultCode.UNAUTHORIZED);
+      throw  new BusinessException(ResultCode.UNAUTHORIZEDSESSION);
 
     }
 

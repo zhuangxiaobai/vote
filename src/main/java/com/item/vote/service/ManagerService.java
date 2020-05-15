@@ -2,15 +2,12 @@ package com.item.vote.service;
 
 import com.item.vote.bean.User;
 import com.item.vote.bean.Vote;
+import com.item.vote.model.VoteId;
 
 import java.util.List;
 
 public interface ManagerService {
 
-
-//    int update(Integer id, User user);
-//
-//    int delete(Integer id);
 
 
 
@@ -23,4 +20,14 @@ public interface ManagerService {
 
 
     int deleteVote(Integer id);  //删除投票
+
+    VoteId getVotesById(Integer voteId); //通过voteId查询投票详情
+
+
+    //    int update(Integer id, User user);
+//
+//    int delete(Integer id);
+
+
+
 }

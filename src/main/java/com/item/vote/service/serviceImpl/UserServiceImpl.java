@@ -4,6 +4,7 @@ import com.item.vote.bean.Log;
 import com.item.vote.bean.Option;
 import com.item.vote.bean.User;
 import com.item.vote.bean.Vote;
+import com.item.vote.exception.BusinessException;
 import com.item.vote.mapper.E_LogMapper;
 import com.item.vote.mapper.E_OptionMapper;
 import com.item.vote.mapper.E_UserMapper;
@@ -43,7 +44,8 @@ public class UserServiceImpl implements UserService {
     public int create(User user) {
 
         if (Md5.getMD5String(user.getPassword()) == null){
-            return 0;
+          //  return 0;
+            throw new BusinessException();
         }
         user.setPassword(Md5.getMD5String(user.getPassword()));
 
@@ -71,7 +73,8 @@ public class UserServiceImpl implements UserService {
 
         user.setUpdateTime(date);
         if (Md5.getMD5String(user.getPassword()) == null){
-            return 0;
+            //return 0;
+            throw new BusinessException();
         }
         user.setPassword(Md5.getMD5String(user.getPassword()));
 
@@ -125,8 +128,8 @@ public class UserServiceImpl implements UserService {
         }
 
 
-
-        return 0;
+        throw new BusinessException();
+        //return 0;
     }
 
     @Override
@@ -137,6 +140,37 @@ public class UserServiceImpl implements UserService {
 
         return ELogMapper.selectHaveVoted(uid,vid);
     }
+
+    @Override
+    public List<VoteVo> getVoteListLimit() {
+
+        List<Vote>  voteList  = EVoteMapper.selectVoteListLimit();
+        //返回前台的对象集合
+        List<VoteVo>  voteVoList = new ArrayList<>();
+        VoteVo voteVo;
+        for (Vote vote:voteList){
+            voteVo = new VoteVo();
+            voteVo.setVote(vote);
+
+            List<Option>  optionList  = EOptionMapper.selectOptionListByVoteId(vote.getId());
+
+            voteVo.setOptionList(optionList);
+            voteVoList.add(voteVo);
+
+        }
+
+
+
+        return voteVoList;
+    }
+
+    @Override
+    public List<Option> getOptions(Integer vid) {
+
+
+        return EOptionMapper.selectOptionListByVoteId(vid);
+    }
+
 
 //    @Override
 //    public User getUserById(Integer id) {
