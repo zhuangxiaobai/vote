@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 //import org.springframework.security.core.userdetails.UserDetails;
 
 import java.security.Key;
+
+import org.apache.commons.codec.binary.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +36,8 @@ public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
+    //private static final  Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
@@ -41,16 +45,18 @@ public class JwtTokenUtil {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
-    private Key key;
+
 
     /**
      * 根据负责生成JWT的token
      */
     private String generateToken(Map<String, Object> claims) {
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        //Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        //Key key  = Keys.hmacShaKeyFor(Base64.decodeBase64(secret));
+        Key key  = Keys.hmacShaKeyFor(secret.getBytes());
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(secret)
+                //.setSubject(secret)
                 .setExpiration(generateExpirationDate())
                 .signWith(key)
                 .compact();
@@ -62,15 +68,20 @@ public class JwtTokenUtil {
      * 从token中获取JWT中的负载
      */
     private Claims getClaimsFromToken(String token) {
+        //Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+       // Key key  = Keys.hmacShaKeyFor(Base64.decodeBase64(secret));
+        Key key  = Keys.hmacShaKeyFor(secret.getBytes());
         Claims claims = null;
         try {
-            /*claims = Jwts.parser()
+          /*  claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
-                    .getBody();*/
-            claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
-
+                    .getBody();
+       //     claims = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();*/
+       //    claims =  Jwts.parserBuilder().setSigningKey(key).requireAudience(secret).build().parseClaimsJws(token).getBody();
+         claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody() ;
         } catch (Exception e) {
+
             LOGGER.info("JWT格式验证失败:{}", token);
         }
         return claims;
@@ -90,7 +101,8 @@ public class JwtTokenUtil {
         String username;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            //username = claims.getSubject();
+            username = (String) claims.get(CLAIM_KEY_USERNAME);
         } catch (Exception e) {
             username = null;
         }

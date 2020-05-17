@@ -12,7 +12,7 @@ mybatis:
 
 jwt:
    tokenHeader: Authorization #JWT存储的请求头
-   secret: vote #JWT加解密使用的密钥
+   secret: vote-zc-secret-authorization-wawawa #JWT加解密使用的密钥
    expiration: 604800 #JWT的超期限时间(60*60*24*7)
    tokenHead: Bearer  #JWT负载中拿到开头
   # log-impl:
